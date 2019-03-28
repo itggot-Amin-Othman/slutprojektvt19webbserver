@@ -1,0 +1,18 @@
+    div class="wrapper"
+        div class="calculator"
+            form action="calculate" method="POST"
+                input name="tal1" type="text"
+                select name="operator"
+                    option selected="selected" value="+"="+"
+                    option value="-"="-"
+                    option value="*"="*"
+                    option value="/"="/"
+                input name="tal2" type="text"
+                input type="submit" value="Räkna skiten"
+        div class="history"
+            <div lang="latex"> \frac{1+sin(x)}{y^2} </div>
+            h3 History
+            - session[:answer].each do |element| 
+                <div lang="latex"> #{element} </div>
+            form action="clear" method="POST"
+                button Rensa min skit

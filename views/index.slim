@@ -1,5 +1,10 @@
     div class="wrapper"
-        div class="calculator"
+        input type="text" id="math-input" placeholder="Type math here"
+        input type="button" id="send-math" value="Calculate"
+        #math-display \[ \] 
+        #math-output \[ \]
+        
+        /!div class="calculator"
             form action="calculate" method="POST"
                 input name="tal1" type="text"
                 select name="operator"
@@ -9,10 +14,13 @@
                     option value="/"="/"
                 input name="tal2" type="text"
                 input type="submit" value="Räkna skiten"
+        
         div class="history"
-            <div lang="latex"> \frac{1+sin(x)}{y^2} </div>
             h3 History
             - session[:answer].each do |element| 
                 <div lang="latex"> #{element} </div>
             form action="clear" method="POST"
                 button Rensa min skit
+
+
+            /!  <div lang="latex"> \frac{1+sin(x)}{y^2} </div>

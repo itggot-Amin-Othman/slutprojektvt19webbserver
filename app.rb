@@ -10,9 +10,9 @@ end
 
 get('/') do
     if session[:answer] != nil
-        slim(:calc)
+        slim(:index)
     end
-    slim(:calc)
+    slim(:index)
 end
 
 post('/calculate') do
@@ -46,9 +46,9 @@ error do
     'What the fuck did you do, it worked fine before you came, now we have a' + env['sinatra.error'].message + 'you fuck.'
 end
 
-error 404 do
-    redirect('/nope')
-end
+# error 404 do
+#     redirect('/nope')
+# end
 
 error 403 do
     redirect('/forbidden')

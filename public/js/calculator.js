@@ -1,3 +1,5 @@
+let str = ""
+
 $(document).ready(function () {
     // get MathJax output object
     var mjDisplayBox, mjOutBox;
@@ -9,6 +11,7 @@ $(document).ready(function () {
     // "live update" MathJax whenever a key is pressed
     $('#math-input').on('keyup', function (evt) {
         var math = $(this).val();
+        console.log(math)
         $(this).css('color', 'black');
         if (math.length > 0) {
             try {

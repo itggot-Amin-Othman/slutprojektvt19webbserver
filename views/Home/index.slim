@@ -1,10 +1,9 @@
+
     div class="wrapper"
         input type="text" id="math-input" placeholder="Type math here"
         input type="button" id="send-math" value="Calculate"
         #math-display \[ \] 
         #math-output \[ \]
-
-        - session[:answer] << math-output 
 
         div class="history"
             h3 History
@@ -12,4 +11,8 @@
                 <div lang="latex"> #{element} </div>
             form action="clear" method="POST"
                 button Rensa min skit
-
+        div class="Login"
+            form action='/login' method='POST'
+                input type='text' placeholder='name' name='name'
+                input type='password' placeholder='pass' name='pass'
+                input type='submit' value='Login'

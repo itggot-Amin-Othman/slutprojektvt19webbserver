@@ -3,18 +3,9 @@
         input type="button" id="send-math" value="Calculate"
         #math-display \[ \] 
         #math-output \[ \]
-        
-        /!div class="calculator"
-            form action="calculate" method="POST"
-                input name="tal1" type="text"
-                select name="operator"
-                    option selected="selected" value="+"="+"
-                    option value="-"="-"
-                    option value="*"="*"
-                    option value="/"="/"
-                input name="tal2" type="text"
-                input type="submit" value="Räkna skiten"
-        
+
+        - session[:answer] << math-output 
+
         div class="history"
             h3 History
             - session[:answer].each do |element| 
@@ -22,5 +13,3 @@
             form action="clear" method="POST"
                 button Rensa min skit
 
-
-            /!  <div lang="latex"> \frac{1+sin(x)}{y^2} </div>

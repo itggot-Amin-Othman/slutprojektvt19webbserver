@@ -9,5 +9,5 @@
             "type": "Ruby",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "program": "${workspaceRoot}/app.rb"
+            "program": "${workspaceRoot}/controller.rb"
         }

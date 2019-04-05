@@ -1,25 +1,31 @@
 def connect
-    db = SQLite3::Database.new('slutarbdb.db')
+    db = SQLite3::Database.new('db/slutarbdb.db')
     db.results_as_hash = true
     return db
 end
 
 def login(params)
-    db = connect
+    db = connect()
     result = db.execute("SELECT Password, UserId FROM users WHERE Username =(?)", params["name"])
     if result == []
-        redirect('/')
+        return {
+            error: true,
+            message: "This person does not exist"
+        }
     end
+    
     encrypted_pass = result[0]["Password"]
     if BCrypt::Password.new(encrypted_pass) == params["pass"]
-        return true
-        session[:loggedin] = true
-        session[:user_id] = result[0]["UserId"]
-        session[:name] = params["name"]
-        redirect('/profile')
+        return {
+            error: false,
+            data: result
+        }
     else
-        return false
-        redirect('/')
+        return {
+            error: true,
+            message: "This password is incorrect"
+        }
+
     end
 end
 
@@ -31,15 +37,14 @@ def create(params)
     if result.length > 0
         return {
             error: true,
-            message: "User already exists"
+            message: "Username taken"
         }
     else
         db.execute("INSERT INTO users(Username,Password) VALUES((?),(?))",name,password) 
         return {
             error: false,
-            data: 
+            data: result
         }
+
     end
-    
-    # redirect('/')
 end

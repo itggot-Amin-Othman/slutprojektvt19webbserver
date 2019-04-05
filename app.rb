@@ -5,24 +5,28 @@ require 'bcrypt'
 require_relative './database.rb'
 enable :sessions
 
-before do
-    if session[:answer] == nil
-        session[:answer] = []
-    end
-end
+
 
 get('/') do
     slim(:"Home/index")
 end
 
-post('/create') do
-    name = params["name"]
-    password = BCrypt::Password.create(params["pass"])
-    db = SQLite3::Database.new('blogg.db')
-    db.execute("INSERT INTO users(Username, Password) VALUES( (?), (?) )",name, password)
-    redirect('/')
+post('/login') do
+    if login(params)
+    else
+    end
+    #kalla på funktionen login
 end
 
+post('/create') do
+    result = create(params)
+    if result[:error]
+        result[:message]
+    else
+        redirect('/users/' + result[:data])
+    end
+    #kalla på funktionen create
+end
 
 
 

@@ -19,7 +19,7 @@ post('/login') do
         session[:loggedin] = true
         session[:user_id] = result[0]["UserId"]
         session[:name] = params["name"]
-        redirect('/profile' + response[:data].to_s)
+        redirect('/profile')
     end
 end
 
@@ -30,11 +30,11 @@ post('/create') do
         return response[:message]
         
     else
-        redirect('/profile')
+        redirect('/profile/#{id})
     end
 end
 
-get('/profile/:foo') do
+get('/profile/:id') do
     slim :'Profile/profile'
 end
 

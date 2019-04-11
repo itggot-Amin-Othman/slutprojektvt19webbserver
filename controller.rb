@@ -17,7 +17,7 @@ post('/login') do
         response[:message]
     else
         session[:loggedin] = true
-        session[:user_id] = result[0]["UserId"]
+        session[:user_id] = session[:result][0]["UserId"]
         session[:name] = params["name"]
         redirect('/profile')
     end
@@ -25,16 +25,15 @@ end
 
 post('/create') do
     response = create(params)
-    
+    id = response[:data]
     if response[:error]
         return response[:message]
-        
     else
-        redirect('/profile/#{id})
+        redirect("/profile/#{id}")
     end
 end
 
 get('/profile/:id') do
-    slim :'Profile/profile'
+   slim(:'Profile/profile')
 end
 

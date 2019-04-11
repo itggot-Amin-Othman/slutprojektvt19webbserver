@@ -6,30 +6,31 @@ body{
 .wrapper{
     width: 50vw;
     margin: 100px auto auto auto;
-    background: lightgray;
+    background-color: lightgray;
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(1fr, 1fr);
+    grid-template-rows: repeat(4,1fr);
     padding: 25px;
     box-shadow: 0px 3px 15px 0px rgba(0,0,0,0.75);
     border-radius: 5px;
 }
 
-.calculator input{
+.calc input{
     margin: 5px;
 }
 
-.calculator input[type="submit"]{
+.calc input[type="submit"]{
     display: block;
 }
 
 .history{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-end;
 }
 
 .login{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-end;
 }

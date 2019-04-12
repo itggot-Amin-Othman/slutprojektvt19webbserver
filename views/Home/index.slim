@@ -1,18 +1,5 @@
 
 div class="wrapper"
-    div class="Login"
-        h2 Log in
-        form action='/login' method='POST'
-            input type='text' placeholder='name' name='name'
-            input type='password' placeholder='pass' name='pass'
-            input type='submit' value='Login'
-
-    div class="Create"
-        h2 Register
-        form action='/create' method='POST'
-            input type='text' placeholder='name' name='name'
-            input type='password' placeholder='pass' name='pass'
-            input type='submit' value='Register' 
     div class="Calc"
         h2 Calculate
         input type="text" id="math-input" placeholder="Type math here"
@@ -26,4 +13,17 @@ div class="wrapper"
             <div lang="latex"> #{element} </div>
         form action="clear" method="POST"
             button Rensa min skit
+    div class="Login"
+        h2 Log in
+        form action='/login' method='POST'
+            input type='text' placeholder='name' name='name'
+            input type='password' placeholder='pass' name='pass'
+            input type='submit' value='Login'
+
+    div class="Create"
+        h2 Register
+        form action='/create' method='POST'
+            input type='text' placeholder='name' name='name'
+            input type='password' placeholder='pass' name='pass'
+            input type='submit' value='Register' 
 

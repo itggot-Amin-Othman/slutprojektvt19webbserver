@@ -2,6 +2,7 @@ require 'slim'
 require 'sinatra'
 require 'sqlite3'
 require 'bcrypt'
+require 'json'
 require_relative './model.rb'
 enable :sessions
 
@@ -17,9 +18,10 @@ post('/login') do
         response[:message]
     else
         session[:loggedin] = true
-        session[:user_id] = session[:result][0]["UserId"]
+        session[:user_id] = response[:data][0]
         session[:name] = params["name"]
-        redirect('/profile')
+        id = session[:user_id]
+        redirect("/profile/#{id}")
     end
 end
 

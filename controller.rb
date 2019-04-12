@@ -39,3 +39,7 @@ get('/profile/:id') do
    slim(:'Profile/profile')
 end
 
+post('/save_math')  do
+    session[:history] = params["history"]   
+    return "hello world"
+end

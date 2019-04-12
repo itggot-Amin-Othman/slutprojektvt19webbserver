@@ -3,12 +3,15 @@ div class="wrapper"
     div class="Calc"
         h2 Calculate
         input type="text" id="math-input" placeholder="Type math here"
-        input type="button" id="send-math" value="Calculate"
+        input type="button" id="send-math" value="Calculate" 
+        input type="button" id="save-math" value="Save" 
         #math-display \[ \] 
         #math-output \[ \]
 
     div class="history"
         h3 History
+         - session[:history].each do |element|
+         
     /    - session[:answer].each do |element| 
             <div lang="latex"> #{element} </div>
         form action="clear" method="POST"

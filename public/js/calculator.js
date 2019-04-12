@@ -1,4 +1,5 @@
 let str = ""
+let history = []
 
 $(document).ready(function () {
     // get MathJax output object
@@ -31,6 +32,8 @@ $(document).ready(function () {
     // send output to sage server
     $('#send-math').on('click', function (evt) {
         var math = $('#math-input').val();
+        history.push(math)
+        console.log(history)
         if (math.length > 0) {
             try {
                 var tree = MathLex.parse(math),
@@ -53,4 +56,10 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('#save-math').on("click", function(evt){
+        $.post('/save_math', {history:history}, function(data){
+            console.log(data)
+        })
+    })
 });

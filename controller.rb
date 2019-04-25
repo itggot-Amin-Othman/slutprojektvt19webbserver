@@ -6,7 +6,11 @@ require 'json'
 require_relative './model.rb'
 enable :sessions
 
-
+before do
+    if session[:history] == nil
+        session[:history] = []
+    end
+end
 
 get('/') do
     slim(:"Home/index")
@@ -40,6 +44,6 @@ get('/profile/:id') do
 end
 
 post('/save_math')  do
-    session[:history] = params["history"]   
-    return "hello world"
+    session[:history] << params["history"][0] 
+    redirect("/")
 end

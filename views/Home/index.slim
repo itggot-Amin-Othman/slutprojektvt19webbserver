@@ -10,8 +10,8 @@ div class="wrapper"
 
     div class="history"
         h3 History
-         - session[:history].each do |element|
-         
+        -   session[:history].each do |element| 
+                <div lang="latex"> #{element} </div>
     /    - session[:answer].each do |element| 
             <div lang="latex"> #{element} </div>
         form action="clear" method="POST"

@@ -49,3 +49,22 @@ def create(params)
 
     end
 end
+
+def addhistory(params)
+    db = connect()
+    history = params["history"]
+    if session[:user_id] == nil
+        return {
+            error: true,
+            message: "Please log in to save calculations"
+        }
+    else
+        userid = session[:user_id]
+        calculation = session[:history]
+        db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))", userid, history)
+        return {
+            error: false,
+            message: "Calculation saved!"
+        }
+    end
+end

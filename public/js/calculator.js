@@ -32,7 +32,7 @@ $(document).ready(function () {
     // send output to sage server
     $('#send-math').on('click', function (evt) {
         var math = $('#math-input').val();
-        history.push(math)
+        
         console.log(history)
         if (math.length > 0) {
             try {
@@ -46,6 +46,7 @@ $(document).ready(function () {
                     }
                     // AJAX success callback
                     if (data.success) {
+                        history.push(math.replace(/(sqrt|int)\((.*)\)/, "\\$1{$2}") + "=" + (data.stdout))
                         MathJax.Hub.Queue(['Text', mjOutBox, data.stdout]);
                     } else {
                         MathJax.Hub.Queue(['Text', mjOutBox, '\\text{Sage could not understand that input}']);
@@ -59,7 +60,7 @@ $(document).ready(function () {
 
     $('#save-math').on("click", function(evt){
         $.post('/save_math', {history:history}, function(data){
-            console.log(data)
+            window.location = window.location
         })
     })
 });

@@ -13,7 +13,11 @@ before do
 end
 
 get('/') do
-    slim(:"Home/index")
+    slim(:"Shared/index")
+end
+
+get('/comrades') do
+    slim(:"Shared/comrades")
 end
 
 post('/login') do
@@ -40,7 +44,9 @@ post('/create') do
 end
 
 get('/profile/:id') do
-   slim(:'Profile/profile')
+   slim(:'Profile/profile', locals:{
+        # personens fucking information
+   })
 end
 
 post('/save_math')  do

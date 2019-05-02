@@ -26,7 +26,7 @@ post('/login') do
         response[:message]
     else
         session[:loggedin] = true
-        session[:user_id] = response[:data][0]
+        session[:user_id] = response[:data]
         session[:name] = params["name"]
         id = session[:user_id]
         redirect("/profile/#{id}")
@@ -44,9 +44,10 @@ post('/create') do
 end
 
 get('/profile/:id') do
-   slim(:'Profile/profile', locals:{
-        # personens fucking information
-   })
+    personalhistory = fetch_history(params)
+    slim(:'Profile/profile', locals:{
+        history: personalhistory,
+    })
 end
 
 post('/save_math')  do
@@ -57,5 +58,10 @@ post('/save_math')  do
     else
         return response[:message]
     end
+    redirect("/")
+end
+
+post("/profile/:id/delete") do
+    delete_user(params)
     redirect("/")
 end

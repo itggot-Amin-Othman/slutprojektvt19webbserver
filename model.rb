@@ -52,19 +52,22 @@ end
 
 def addhistory(params)
     db = connect()
+    calculation = session[:history]
     history = params["history"]
-    if session[:user_id] == nil
-        return {
-            error: true,
-            message: "Please log in to save calculations"
+    id = session[:user_id]
+    db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))", id,calculation.first)
+    return {
+        error: false,
+        message: "Calculation saved!"
         }
-    else
-        userid = session[:user_id]
-        calculation = session[:history]
-        db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))", userid, history)
-        return {
-            error: false,
-            message: "Calculation saved!"
-        }
-    end
+end
+
+def delete_user(params)
+    db = connect()
+    db.execute("DELETE FROM users WHERE UserId=(?) ",params['id'])
+end
+
+def fetch_history(params)
+    db = connect()
+    return db.execute("SELECT calculations.Calculation FROM calculations INNER JOIN users ON calculations.UserId=users.UserId WHERE users.userid = (?)", params['id'])
 end

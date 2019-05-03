@@ -6,7 +6,7 @@ require 'json'
 require_relative './model.rb'
 enable :sessions
 
-secure_routes = ['/profile/:id','/comrades','/profile/:id/delete']
+un_secure_routes = ['/','/create']
 
 before do
     if session[:history] == nil
@@ -14,13 +14,13 @@ before do
     end
 end
 
-before do
-    if secure_routes.include? request.path()
-        if session[:loggedin] != true
-            redirect('/error')
-        end
-    end
-end
+# before do
+#     unless un_secure_routes.include? request.path()
+#         if session[:loggedin] != true
+#             redirect('/error')
+#         end
+#     end
+# end
 
 get('/') do
     slim(:"Shared/index")
@@ -79,4 +79,20 @@ end
 post("/profile/:id/delete") do
     delete_user(params)
     redirect("/")
+end
+
+post("/profile/history/:calcid/delete") do
+    delete_calc(params)
+    id=session[:user_id]
+    redirect("/profile/#{id}")
+end
+
+post("/logout") do
+    session.destroy
+    redirect('/')
+end
+
+post('/like') do
+    like(params)
+    redirect('/comrades')
 end

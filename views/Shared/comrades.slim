@@ -5,3 +5,7 @@ div class="history"
         article
             <div lang="latex"> #{element["Calculation"]}</div>
             p by #{element["Username"]}
+            p #{element}
+            form action='/like' method='POST'
+                input type="hidden" name="calcid" id="calcid" value="#{element['CalcId']}"
+                button type="submit" id='like' name='like' Like

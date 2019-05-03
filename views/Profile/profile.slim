@@ -13,9 +13,7 @@ div class="history"
         article
             <div lang="latex"> #{element["Calculation"]} </div>
             div class="controls"
-                a href="/users/#{element['id']}/edit"
-                    i class="material-icons" edit
-                form action="/users/#{element['id']}/delete" method="POST"
+                form action="/profile/history/#{element['CalcId']}/delete" method="POST"
                     button type="submit" value=""
                         i class="material-icons" delete
 

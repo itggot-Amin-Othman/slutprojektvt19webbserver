@@ -55,6 +55,7 @@ def addhistory(params)
     calculation = params["history"]
     id = session[:user_id]
     db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))", id,calculation.first)
+    
     return {
         error: false,
         message: "Calculation saved!"
@@ -66,12 +67,23 @@ def delete_user(params)
     db.execute("DELETE FROM users WHERE UserId=(?) ",params['id'])
 end
 
+def delete_calc(params)
+    db = connect()
+    db.execute("DELETE FROM calculations WHERE CalcId=(?)", params['calcid'])
+end
+
 def fetch_history(params)
     db = connect()
-    return db.execute("SELECT calculations.Calculation FROM calculations INNER JOIN users ON calculations.UserId=users.UserId WHERE users.userid = (?)", params['id'])
+    return db.execute("SELECT calculations.Calculation, calculations.CalcId FROM calculations INNER JOIN users ON calculations.UserId=users.UserId WHERE users.userid = (?)", params['id'])
 end
 
 def fetch_our_history(params)
     db = connect()
-    return db.execute("SELECT calculations.Calculation, users.Username FROM calculations INNER JOIN users ON calculations.UserId=users.UserId")
+    likes = db.execute("SELECT COUNT(*)FROM likes WHERE CalcId=(?)",params['calcid'])
+    return db.execute("SELECT calculations.Calculation, calculations.CalcId, users.Username FROM calculations INNER JOIN users ON calculations.UserId=users.UserId")
+end 
+
+def like(params)
+    db = connect()
+    db.execute("INSERT INTO likes(UserId,CalcId) VALUES ((?),(?))",session[:user_id], params['calcid'])
 end

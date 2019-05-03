@@ -28,8 +28,10 @@ end
 
 get('/comrades') do
     ourhistory = fetch_our_history(params)
+    likes = fetch_likes()
     slim(:"Shared/comrades", locals:{
         history: ourhistory,
+        likes: likes,
     })
 end
 

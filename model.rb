@@ -79,10 +79,13 @@ end
 
 def fetch_our_history(params)
     db = connect()
-    likes = db.execute("SELECT COUNT(*)FROM likes WHERE CalcId=(?)",params['calcid'])
     return db.execute("SELECT calculations.Calculation, calculations.CalcId, users.Username FROM calculations INNER JOIN users ON calculations.UserId=users.UserId")
 end 
 
+def fetch_likes()
+    db = connect()
+    return db.execute("SELECT * FROM likes")
+end
 def like(params)
     db = connect()
     db.execute("INSERT INTO likes(UserId,CalcId) VALUES ((?),(?))",session[:user_id], params['calcid'])

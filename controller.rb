@@ -6,9 +6,19 @@ require 'json'
 require_relative './model.rb'
 enable :sessions
 
+secure_routes = ['/profile/:id','/comrades','/profile/:id/delete']
+
 before do
     if session[:history] == nil
         session[:history] = []
+    end
+end
+
+before do
+    if secure_routes.include? request.path()
+        if session[:loggedin] != true
+            redirect('/error')
+        end
     end
 end
 
@@ -17,7 +27,10 @@ get('/') do
 end
 
 get('/comrades') do
-    slim(:"Shared/comrades")
+    ourhistory = fetch_our_history(params)
+    slim(:"Shared/comrades", locals:{
+        history: ourhistory,
+    })
 end
 
 post('/login') do
@@ -39,6 +52,9 @@ post('/create') do
     if response[:error]
         return response[:message]
     else
+        session[:loggedin] = true
+        session[:user_id] = id
+        session[:name] = params["name"]
         redirect("/profile/#{id}")
     end
 end

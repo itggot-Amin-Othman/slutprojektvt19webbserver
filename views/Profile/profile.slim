@@ -1,4 +1,4 @@
-h1 Välkommen till din profilsida #{params["name"]}!
+h1 Välkommen till din profilsida #{session[:name]}!
 
 div class="Calc"
     h2 Calculate
@@ -11,7 +11,7 @@ div class="Calc"
 div class="history"
     -   history.each do |element| 
         article
-            <div lang="latex"> #{element} </div>
+            <div lang="latex"> #{element["Calculation"]} </div>
             div class="controls"
                 a href="/users/#{element['id']}/edit"
                     i class="material-icons" edit

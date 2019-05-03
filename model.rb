@@ -71,3 +71,8 @@ def fetch_history(params)
     db = connect()
     return db.execute("SELECT calculations.Calculation FROM calculations INNER JOIN users ON calculations.UserId=users.UserId WHERE users.userid = (?)", params['id'])
 end
+
+def fetch_our_history(params)
+    db = connect()
+    return db.execute("SELECT calculations.Calculation, users.Username FROM calculations INNER JOIN users ON calculations.UserId=users.UserId")
+end

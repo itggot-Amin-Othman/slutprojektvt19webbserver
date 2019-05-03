@@ -67,7 +67,6 @@ get('/profile/:id') do
 end
 
 post('/save_math')  do
-    session[:history] << params["history"][0] 
     response = addhistory(params)
     if response[:error]
         return response[:message]

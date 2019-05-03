@@ -52,8 +52,7 @@ end
 
 def addhistory(params)
     db = connect()
-    calculation = session[:history]
-    history = params["history"]
+    calculation = params["history"]
     id = session[:user_id]
     db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))", id,calculation.first)
     return {

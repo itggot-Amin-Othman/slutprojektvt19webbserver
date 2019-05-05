@@ -5,8 +5,8 @@ require 'bcrypt'
 require 'json'
 require_relative './model.rb'
 enable :sessions
-
-un_secure_routes = ['/','/create']
+set :show_exceptions, :after_handler
+un_secure_routes = ['/','/create','/login','/error']
 
 before do
     if session[:history] == nil
@@ -14,13 +14,13 @@ before do
     end
 end
 
-# before do
-#     unless un_secure_routes.include? request.path()
-#         if session[:loggedin] != true
-#             redirect('/error')
-#         end
-#     end
-# end
+before do
+    unless un_secure_routes.include? request.path()
+        if session[:loggedin] != true
+            redirect('/error')
+        end
+    end
+end
 
 get('/') do
     slim(:"Shared/index")
@@ -33,6 +33,17 @@ get('/comrades') do
         history: ourhistory,
         likes: likes,
     })
+end
+
+get('/profile/:id') do
+    personalhistory = fetch_history(params)
+    slim(:'Profile/profile', locals:{
+        history: personalhistory,
+    })
+end
+
+get("/error") do
+    slim(:"Error/forbidden")
 end
 
 post('/login') do
@@ -61,12 +72,6 @@ post('/create') do
     end
 end
 
-get('/profile/:id') do
-    personalhistory = fetch_history(params)
-    slim(:'Profile/profile', locals:{
-        history: personalhistory,
-    })
-end
 
 post('/save_math')  do
     response = addhistory(params)
@@ -98,3 +103,4 @@ post('/like') do
     like(params)
     redirect('/comrades')
 end
+

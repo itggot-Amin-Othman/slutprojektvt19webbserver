@@ -1,29 +1,33 @@
-h1 Välkommen till din profilsida #{session[:name]}!
-
-div class="Calc"
-    h2 Calculate
-    input type="text" id="math-input" placeholder="Type math here"
-    input type="button" id="send-math" value="Calculate" 
-    input type="button" id="save-math" value="Save" 
-    #math-display \[ \] 
-    #math-output \[ \]
-
-div class="history"
-    -   history.each do |element| 
-        article
-            <div lang="latex"> #{element["Calculation"]} </div>
-            div class="controls"
-                form action="/profile/history/#{element['CalcId']}/delete" method="POST"
-                    button type="submit" value=""
-                        i class="material-icons" delete
+div class="wrapper"
+    h1 Välkommen till din profilsida #{session[:name]}!
+    div class="Calc"
+        h2 Calculate
+        input type="text" id="math-input" placeholder="Type math here"
+        input type="button" id="send-math" value="Calculate" 
+        input type="button" id="save-math" value="Save" 
+        #math-display \[ \] 
+        #math-output \[ \]
 
 
+    div class="history"
+        -   history.each do |element| 
+            article
+                <div lang="latex"> #{element["Calculation"]} </div>
+                div class="controls"
+                    form action="/profile/history/#{element['CalcId']}/delete" method="POST"
+                        button type="submit" value=""
+                            i class="material-icons" delete
 
-article
-    div class="controls"
-        form action="/logout" method="POST"
-            input type="submit" value="Log out"
-        h3 Delete your profile.
-        form action="/profile/#{params['id']}/delete" method="POST"
-            button type="submit" value="Delete your profile"
-                i class="material-icons" delete
+
+
+    article
+        div class="controls"
+            form action='/comrades' method='GET' 
+                input type='submit' value='Shared History'
+            form action="/logout" method="POST"
+                input type="submit" value="Log out"
+            h3 Delete your profile.
+            form action="/profile/#{params['id']}/delete" method="POST"
+                button type="submit" value="Delete your profile"
+                    i class="material-icons" delete
+            

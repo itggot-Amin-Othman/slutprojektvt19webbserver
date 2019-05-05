@@ -86,7 +86,17 @@ def fetch_likes()
     db = connect()
     return db.execute("SELECT * FROM likes")
 end
+
 def like(params)
     db = connect()
-    db.execute("INSERT INTO likes(UserId,CalcId) VALUES ((?),(?))",session[:user_id], params['calcid'])
+    previously_liked=db.execute("SELECT likes.calcid FROM likes WHERE userid=(?)", session[:user_id])
+    previously_liked = previously_liked.flatten
+    if previously_liked.include? params['calcid'].to_i
+        return {
+            error: true,
+            message: "You cant like twice you dingus!"
+            }
+    else
+        db.execute("INSERT INTO likes(UserId,CalcId) VALUES ((?),(?))",session[:user_id], params['calcid'])
+    end
 end

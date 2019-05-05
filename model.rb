@@ -4,6 +4,11 @@ def connect
     return db
 end
 
+def connect_non_hash
+    db = SQLite3::Database.new('db/slutarbdb.db')
+    return db
+end
+
 def login(params)
     db = connect()
     result = db.execute("SELECT Password, UserId FROM users WHERE Username =(?)", params["name"])
@@ -88,8 +93,8 @@ def fetch_likes()
 end
 
 def like(params)
-    db = connect()
-    previously_liked=db.execute("SELECT likes.calcid FROM likes WHERE userid=(?)", session[:user_id])
+    db = connect_non_hash()
+    previously_liked=db.execute("SELECT calcid FROM likes WHERE userid=(?)", session[:user_id])
     previously_liked = previously_liked.flatten
     if previously_liked.include? params['calcid'].to_i
         return {

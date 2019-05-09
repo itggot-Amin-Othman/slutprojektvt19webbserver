@@ -59,16 +59,15 @@ module Model
 
         def self.delete_user(params)
             db = Model::connect()
-            db.execute("DELETE FROM users WHERE UserId=(?) ",params['id'])
+            db.execute("DELETE FROM users WHERE UserId=(?) ",params['id']) #kolla om inloggad
         end
     end
 
     module Calculations
-        def self.addhistory(params)
+        def self.addhistory(params,id)
             db = Model::connect()
             calculation = params["history"]
-            id = session[:user_id]
-            db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))", id,calculation.first)
+            db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))",id ,calculation.first)
             
             return {
                 error: false,
@@ -81,9 +80,9 @@ module Model
             db.execute("DELETE FROM calculations WHERE CalcId=(?)", params['calcid'])
         end
 
-        def self.fetch_history(params)
+        def self.fetch_history(id)
             db = Model::connect()
-            return db.execute("SELECT calculations.Calculation, calculations.CalcId FROM calculations INNER JOIN users ON calculations.UserId=users.UserId WHERE users.userid = (?)", params['id'])
+            return db.execute("SELECT calculations.Calculation, calculations.CalcId FROM calculations INNER JOIN users ON calculations.UserId=users.UserId WHERE users.userid = (?)", id)
         end
 
         def self.fetch_our_history(params)
@@ -98,9 +97,9 @@ module Model
             return db.execute("SELECT * FROM likes")
         end
 
-        def self.like(params)
+        def self.like(params,id)
             db = Model::connect_non_hash()
-            previously_liked=db.execute("SELECT calcid FROM likes WHERE userid=(?)", session[:user_id])
+            previously_liked=db.execute("SELECT calcid FROM likes WHERE userid=(?)", id)
             previously_liked = previously_liked.flatten
             if previously_liked.include? params['calcid'].to_i
                 return {
@@ -108,7 +107,7 @@ module Model
                     message: "You cant like twice you dingus!"
                     }
             else
-                db.execute("INSERT INTO likes(UserId,CalcId) VALUES ((?),(?))",session[:user_id], params['calcid'])
+                db.execute("INSERT INTO likes(UserId,CalcId) VALUES ((?),(?))",id, params['calcid'])
             end
         end
     end

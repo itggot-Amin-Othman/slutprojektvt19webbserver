@@ -38,8 +38,9 @@ get('/comrades') do
     })
 end
 
-get('/profile/:id') do
-    personalhistory = Calculations.fetch_history(params)
+get('/profile') do
+    id = session[:user_id]
+    personalhistory = Calculations.fetch_history(id)
     slim(:'Profile/profile', locals:{
         history: personalhistory,
     })
@@ -57,8 +58,7 @@ post('/login') do
         session[:loggedin] = true
         session[:user_id] = response[:data]
         session[:name] = params["name"]
-        id = session[:user_id]
-        redirect("/profile/#{id}")
+        redirect("/profile")
     end
 end
 
@@ -71,13 +71,14 @@ post('/create') do
         session[:loggedin] = true
         session[:user_id] = id
         session[:name] = params["name"]
-        redirect("/profile/#{id}")
+        redirect("/profile")
     end
 end
 
 
 post('/save_math')  do
-    response = Calculations.addhistory(params)
+    id = session[:user_id] 
+    response = Calculations.addhistory(params, id)
     if response[:error]
         return response[:message]
     else
@@ -86,15 +87,14 @@ post('/save_math')  do
     redirect("/")
 end
 
-post("/profile/:id/delete") do
+post("/profile/delete") do
     Users.delete_user(params)
     redirect("/")
 end
 
 post("/profile/history/:calcid/delete") do
     Calculations.delete_calc(params)
-    id=session[:user_id]
-    redirect("/profile/#{id}")
+    redirect("/profile")
 end
 
 post("/logout") do
@@ -103,7 +103,8 @@ post("/logout") do
 end
 
 post('/like') do
-    Likes.like(params)
+    id = session[:user_id]
+    Likes.like(params,id)
     redirect('/comrades')
 end
 

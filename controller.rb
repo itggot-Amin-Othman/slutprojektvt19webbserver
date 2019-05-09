@@ -4,9 +4,12 @@ require 'sqlite3'
 require 'bcrypt'
 require 'json'
 require_relative './model.rb'
+include Model
 enable :sessions
 set :show_exceptions, :after_handler
 un_secure_routes = ['/','/create','/login','/error']
+
+
 
 before do
     if session[:history] == nil
@@ -27,8 +30,8 @@ get('/') do
 end
 
 get('/comrades') do
-    ourhistory = fetch_our_history(params)
-    likes = fetch_likes()
+    ourhistory = Calculations.fetch_our_history(params)
+    likes = Likes.fetch_likes()
     slim(:"Shared/comrades", locals:{
         history: ourhistory,
         likes: likes,
@@ -36,7 +39,7 @@ get('/comrades') do
 end
 
 get('/profile/:id') do
-    personalhistory = fetch_history(params)
+    personalhistory = Calculations.fetch_history(params)
     slim(:'Profile/profile', locals:{
         history: personalhistory,
     })
@@ -47,7 +50,7 @@ get("/error") do
 end
 
 post('/login') do
-    response = login(params)
+    response = Users.login(params)
     if response[:error]
         response[:message]
     else
@@ -60,7 +63,7 @@ post('/login') do
 end
 
 post('/create') do
-    response = create(params)
+    response = Users.create(params)
     id = response[:data]
     if response[:error]
         return response[:message]
@@ -74,7 +77,7 @@ end
 
 
 post('/save_math')  do
-    response = addhistory(params)
+    response = Calculations.addhistory(params)
     if response[:error]
         return response[:message]
     else
@@ -84,12 +87,12 @@ post('/save_math')  do
 end
 
 post("/profile/:id/delete") do
-    delete_user(params)
+    Users.delete_user(params)
     redirect("/")
 end
 
 post("/profile/history/:calcid/delete") do
-    delete_calc(params)
+    Calculations.delete_calc(params)
     id=session[:user_id]
     redirect("/profile/#{id}")
 end
@@ -100,7 +103,7 @@ post("/logout") do
 end
 
 post('/like') do
-    like(params)
+    Likes.like(params)
     redirect('/comrades')
 end
 

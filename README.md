@@ -42,7 +42,7 @@ DB
 
 
 ## 5. (Databas med ER-diagram)
-https://bit.ly/2HY6pJy 
+https://bit.ly/2EcZ0nf 
 (Uppdarad db)
 
 calculations

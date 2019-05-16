@@ -37,23 +37,30 @@ module Model
         end
 
         def self.create(params)
-            db = Model::connect()
-            name = params["name"]
-            password = BCrypt::Password.create(params["pass"])
-            result = db.execute("SELECT UserId FROM users WHERE Username =(?)", params["name"])
-            if result != []
+            if params["pass"] == params["pass2"]
+                db = Model::connect()
+                name = params["name"]
+                password = BCrypt::Password.create(params["pass"])
+                result = db.execute("SELECT UserId FROM users WHERE Username =(?)", params["name"])
+                if result != []
+                    return {
+                        error: true,
+                        message: "Username taken"
+                    }
+                else
+                    db.execute("INSERT INTO users(Username,Password) VALUES((?),(?))",name,password) 
+                    id = db.execute("SELECT UserId FROM users WHERE Username =(?)", params["name"])
+                    return {
+                        error: false,
+                        data: id[0][0]
+                    }
+
+                end
+            else
                 return {
                     error: true,
-                    message: "Username taken"
+                    message: "Passwords do not match"
                 }
-            else
-                db.execute("INSERT INTO users(Username,Password) VALUES((?),(?))",name,password) 
-                id = db.execute("SELECT UserId FROM users WHERE Username =(?)", params["name"])
-                return {
-                    error: false,
-                    data: id[0][0]
-                }
-
             end
         end
 

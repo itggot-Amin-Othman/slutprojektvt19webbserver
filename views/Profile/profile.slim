@@ -7,7 +7,8 @@ div class="wrapper"
         input type="button" id="save-math" value="Save" 
         #math-display \[ \] 
         #math-output \[ \]
-
+    - if flash[:error]
+        =flash[:error]
 
     div class="history"
         -   history.each do |element| 

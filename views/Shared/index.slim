@@ -6,10 +6,13 @@ div class="wrapper"
             input type='text' placeholder='name' name='name'
             input type='password' placeholder='pass' name='pass'
             input type='submit' value='Login'
+        - if flash[:error]
+            =flash[:error]
 
     div class="Create"
         h2 Register
         form action='/create' method='POST'
             input type='text' placeholder='name' name='name'
             input type='password' placeholder='pass' name='pass'
+            input type='password' placeholder='Re-type pass' name='pass2'
             input type='submit' value='Register' 

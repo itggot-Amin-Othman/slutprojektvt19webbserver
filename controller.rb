@@ -3,6 +3,7 @@ require 'sinatra'
 require 'sqlite3'
 require 'bcrypt'
 require 'json'
+require 'sinatra/flash'
 require_relative './model.rb'
 include Model
 enable :sessions
@@ -53,7 +54,8 @@ end
 post('/login') do
     response = Users.login(params)
     if response[:error]
-        response[:message]
+        flash[:error] = response[:message]
+        redirect back
     else
         session[:loggedin] = true
         session[:user_id] = response[:data]
@@ -66,7 +68,8 @@ post('/create') do
     response = Users.create(params)
     id = response[:data]
     if response[:error]
-        return response[:message]
+        flash[:error] = response[:message]
+        redirect back
     else
         session[:loggedin] = true
         session[:user_id] = id
@@ -80,11 +83,12 @@ post('/save_math')  do
     id = session[:user_id] 
     response = Calculations.addhistory(params, id)
     if response[:error]
-        return response[:message]
+        flash[:error] = response[:message]
+        redirect back
     else
-        return response[:message]
+        flash[:error] = response[:message]
+        redirect back
     end
-    redirect("/")
 end
 
 post("/profile/delete") do

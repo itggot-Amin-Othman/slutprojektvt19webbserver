@@ -66,12 +66,12 @@ module Model
 
         def self.delete_user(params)
             db = Model::connect()
-            db.execute("DELETE FROM users WHERE UserId=(?) ",params['id']) #kolla om inloggad
+            db.execute("DELETE FROM users WHERE UserId=(?) ",params['id'])
         end
     end
 
     module Calculations
-        def self.addhistory(params,id)
+        def self.add_history(params,id)
             db = Model::connect()
             calculation = params["history"]
             db.execute("INSERT INTO calculations(UserId,Calculation) VALUES ((?),(?))",id ,calculation.first)
@@ -92,7 +92,7 @@ module Model
             return db.execute("SELECT calculations.Calculation, calculations.CalcId FROM calculations INNER JOIN users ON calculations.UserId=users.UserId WHERE users.userid = (?)", id)
         end
 
-        def self.fetch_our_history(params)
+        def self.fetch_our_history()
             db = Model::connect()
             return db.execute("SELECT calculations.Calculation, calculations.CalcId, users.Username FROM calculations INNER JOIN users ON calculations.UserId=users.UserId")
         end 

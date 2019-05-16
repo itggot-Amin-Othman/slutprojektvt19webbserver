@@ -3,8 +3,8 @@ div class="wrapper"
     div class="Login"
         h2 Log in
         form action='/login' method='POST'
-            input type='text' placeholder='name' name='name'
-            input type='password' placeholder='pass' name='pass'
+            input type='text' placeholder='name' name='name' required=true
+            input type='password' placeholder='pass' name='pass' required=true
             input type='submit' value='Login'
         - if flash[:error]
             =flash[:error]
@@ -12,7 +12,7 @@ div class="wrapper"
     div class="Create"
         h2 Register
         form action='/create' method='POST'
-            input type='text' placeholder='name' name='name'
-            input type='password' placeholder='pass' name='pass'
-            input type='password' placeholder='Re-type pass' name='pass2'
+            input type='text' placeholder='name' name='name' required=true
+            input type='password' placeholder='pass' name='pass' required=true
+            input type='password' placeholder='Re-type pass' name='pass2' required=true
             input type='submit' value='Register' 
